@@ -7,12 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kodlama.io.Kodlama.io.Devs.business.abstracts.LanguageService;
-import kodlama.io.Kodlama.io.Devs.business.requests.CreateLanguageRequest;
-import kodlama.io.Kodlama.io.Devs.business.requests.DeleteLanguageRequest;
-import kodlama.io.Kodlama.io.Devs.business.requests.UpdateLanguageRequest;
-import kodlama.io.Kodlama.io.Devs.business.responses.GetAllLanguagesResponse;
-import kodlama.io.Kodlama.io.Devs.business.responses.GetByIdResponse;
+import kodlama.io.Kodlama.io.Devs.business.requests.language.CreateLanguageRequest;
+import kodlama.io.Kodlama.io.Devs.business.requests.language.DeleteLanguageRequest;
+import kodlama.io.Kodlama.io.Devs.business.requests.language.UpdateLanguageRequest;
+import kodlama.io.Kodlama.io.Devs.business.responses.language.GetAllLanguagesResponse;
+import kodlama.io.Kodlama.io.Devs.business.responses.language.GetLanguageByIdResponse;
 import kodlama.io.Kodlama.io.Devs.dataAccess.abstracts.LanguageRepository;
+import kodlama.io.Kodlama.io.Devs.dataAccess.abstracts.SubTechnologyRepository;
 import kodlama.io.Kodlama.io.Devs.entities.Language;
 
 @Service
@@ -21,7 +22,7 @@ public class LanguageManager implements LanguageService {
 	private LanguageRepository languageRepository;
 
 	@Autowired
-	public LanguageManager(LanguageRepository languageRepository) {
+	public LanguageManager(LanguageRepository languageRepository, SubTechnologyRepository subTechnologyRepository) {
 		this.languageRepository = languageRepository;
 	}
 
@@ -66,27 +67,22 @@ public class LanguageManager implements LanguageService {
 	}
 
 	@Override
-	public GetByIdResponse getById(int id) throws Exception {
-		
-		for (Language languages : this.languageRepository.findAll()) {
-			if(languages.getId()==id) {
-				GetByIdResponse languageResponse = new GetByIdResponse();
-		languageResponse.setName((languageRepository.findById(id).get().getName()));
+	public GetLanguageByIdResponse getById(int id) throws Exception {
+		GetLanguageByIdResponse languageResponse = new GetLanguageByIdResponse();
+		Language language = languageRepository.findById(id).get();
+		languageResponse.setName(language.getName());
 		return languageResponse;
-			}
-		}
-		throw new Exception("Bu id numarsı listede yok !");
 	}
 
 	@Override
 	public void update(UpdateLanguageRequest updateLanguageRequest) throws Exception {
 
-		if (updateLanguageRequest.getName().isEmpty()) {
+		if (updateLanguageRequest.getLanguageName().isEmpty()) {
 			throw new Exception("Programlama dili boş geçilemez !");
 		} else {
 			for (Language addedLanguage : this.languageRepository.findAll()) {
 
-				if (addedLanguage.getName().equals(updateLanguageRequest.getName())) {
+				if (addedLanguage.getName().equals(updateLanguageRequest.getLanguageName())) {
 					throw new Exception("Bu kurs daha önce eklenmiş !");
 				}
 			}
@@ -96,13 +92,13 @@ public class LanguageManager implements LanguageService {
 			if (addedLanguage.getId() == updateLanguageRequest.getId()) {
 				Language language = new Language();
 				language.setId(updateLanguageRequest.getId());
-				language.setName(updateLanguageRequest.getName());
+				language.setName(updateLanguageRequest.getLanguageName());
 				this.languageRepository.save(language);
 				flag = true;
 			}
 		}
 		if (flag == false)
-			throw new Exception("Bu id numarsı listede yok !");
+			throw new Exception("Bu id numarası listede yok !");
 
 	}
 

@@ -1,4 +1,4 @@
-package kodlama.io.Kodlama.io.Devs.business.responses;
+package kodlama.io.Kodlama.io.Devs.business.responses.language;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class GetByIdResponse {
+public class GetLanguageByIdResponse {
 
 	private String name;;
 }

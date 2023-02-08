@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kodlama.io.Kodlama.io.Devs.business.abstracts.LanguageService;
-import kodlama.io.Kodlama.io.Devs.business.requests.CreateLanguageRequest;
-import kodlama.io.Kodlama.io.Devs.business.requests.DeleteLanguageRequest;
-import kodlama.io.Kodlama.io.Devs.business.requests.UpdateLanguageRequest;
-import kodlama.io.Kodlama.io.Devs.business.responses.GetAllLanguagesResponse;
-import kodlama.io.Kodlama.io.Devs.business.responses.GetByIdResponse;
+import kodlama.io.Kodlama.io.Devs.business.requests.language.CreateLanguageRequest;
+import kodlama.io.Kodlama.io.Devs.business.requests.language.DeleteLanguageRequest;
+import kodlama.io.Kodlama.io.Devs.business.requests.language.UpdateLanguageRequest;
+import kodlama.io.Kodlama.io.Devs.business.responses.language.GetAllLanguagesResponse;
+import kodlama.io.Kodlama.io.Devs.business.responses.language.GetLanguageByIdResponse;
 
 @RestController
 @RequestMapping("/api/languages")
@@ -48,7 +48,7 @@ public class LanguagesController {
 	}
 
 	@GetMapping("/getById")
-	public GetByIdResponse getById(int id) throws Exception {
+	public GetLanguageByIdResponse getById(int id) throws Exception {
 		return languageService.getById(id); 
 	}
 
